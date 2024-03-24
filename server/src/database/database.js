@@ -10,3 +10,5 @@ function connectDb() {
         .catch(error => reject(error));
     });
 }
+
+module.exports = connectDb;

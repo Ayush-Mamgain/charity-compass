@@ -25,4 +25,7 @@ app.use(express.static('public'));
 
 app.use(cookieParser());
 
-export default app;
+//default route
+app.get('/', (req, res) => res.send('Welcome to charity finder'));
+
+module.exports = app;
