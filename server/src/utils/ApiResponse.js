@@ -1,5 +1,5 @@
 
-export default class ApiResponse {
+module.exports = class ApiResponse {
     constructor(statusCode, data, message='Success') {
         this.statusCode = statusCode;
         this.data = data;

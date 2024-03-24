@@ -8,7 +8,7 @@ const registerUser = asyncHandler(async function (req, res, next) {
     const { username, email, password, confirmPassword } = req.body;
 
     //validate
-    if([username, email, password, confirmPassword].some(filed => field?.trim() === ''))
+    if([username, email, password, confirmPassword].some(field => !field || field.trim() === ''))
         throw new ApiError(400, 'All fields are required');
 
     //check if user already exists
@@ -40,4 +40,4 @@ const registerUser = asyncHandler(async function (req, res, next) {
     );
 });
 
-export { registerUser };
+module.exports = registerUser;

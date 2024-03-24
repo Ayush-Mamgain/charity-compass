@@ -28,4 +28,8 @@ app.use(cookieParser());
 //default route
 app.get('/', (req, res) => res.send('Welcome to charity finder'));
 
+//mount API routes
+const userRouter = require('./routes/user.routes');
+app.use('/api/users', userRouter);
+
 module.exports = app;

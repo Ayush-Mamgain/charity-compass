@@ -23,7 +23,7 @@ const userSchema = new mongoose.Schema({
         required: true,
     },
     address: {
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'Address',
     },
     refreshToken: {
@@ -38,6 +38,7 @@ userSchema.pre('save', async function (next) {
             this.password = await hashPassword(this.password);
         } catch(error) {
             console.error('Error in hashing password:\n',error);
+            throw error;
         }
     }
     next();
@@ -74,4 +75,4 @@ userSchema.methods.generateRefreshToken = function () {
 }
 
 const User = mongoose.model('User', userSchema);
-export default User;
+module.exports = User;

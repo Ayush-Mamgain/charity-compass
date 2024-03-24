@@ -1,6 +1,6 @@
 //this class will be used to create structured error objects
 
-export default class ApiError extends Error {
+module.exports = class ApiError extends Error {
     constructor(statusCode, message="Something went wrong", errors=[], stack="") {
         super(message); //this actually makes it an Error
         this.statusCode = statusCode;
