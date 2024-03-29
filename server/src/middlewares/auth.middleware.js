@@ -18,7 +18,7 @@ const authN = asyncHandler(async function(req, res, next) {
         decodedToken = await jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
     } catch(error) {
         console.error('Error in verifying refresh token\n',error);
-        throw new ApiError(401, 'Invalid Token', error);
+        throw new ApiError(402, 'Invalid Token', error);
     }
 
     //get the user from DB
@@ -26,7 +26,7 @@ const authN = asyncHandler(async function(req, res, next) {
 
     //verify the token
     if(!user) 
-        throw new ApiError(402, 'User corresponding to token not found (Invalid)');
+        throw new ApiError(403, 'User corresponding to token not found (Invalid)');
 
     //check if both tokens match
     if(user.refreshToken !== refreshToken)
@@ -56,7 +56,7 @@ const verifyToken = asyncHandler(async function (req, res, next) {
 
     //Verify the token
     if (!user)
-        throw new ApiError(401, 'Invalid Access Token');
+        throw new ApiError(402, 'Invalid Access Token');
 
     //append the user to the request object
     req.user = user;

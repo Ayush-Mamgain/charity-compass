@@ -3,7 +3,6 @@ const hashPassword = require('../utils/hashPassword');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
-
 const userSchema = new mongoose.Schema({
     email: {
         type: String,
@@ -29,7 +28,18 @@ const userSchema = new mongoose.Schema({
     refreshToken: {
         type: String
     },
-    
+    savedCharities: [ //bookmarks
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Charity'
+        }
+    ],
+    donations: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Donation'
+        }
+    ]
 }, { timestamps: true });
 
 userSchema.pre('save', async function (next) {
