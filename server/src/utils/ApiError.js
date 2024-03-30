@@ -1,6 +1,6 @@
 //this class will be used to create structured error objects
 
-module.exports = class ApiError extends Error {
+class ApiError extends Error {
     constructor(statusCode, message="Something went wrong", errors=[], stack="") {
         super(message); //this actually makes it an Error
         this.statusCode = statusCode;
@@ -12,3 +12,5 @@ module.exports = class ApiError extends Error {
         this.stack = stack ? stack : Error.captureStackTrace(this, this.constructor);
     }
 }
+
+module.exports = ApiError;

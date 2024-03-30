@@ -39,7 +39,16 @@ const userSchema = new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Donation'
         }
-    ]
+    ],
+    createdCharities: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Charity'
+        }
+    ],
+    image: {
+        type: String
+    }
 }, { timestamps: true });
 
 userSchema.pre('save', async function (next) {

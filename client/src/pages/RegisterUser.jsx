@@ -6,7 +6,6 @@ import { FaEyeSlash } from "react-icons/fa";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import Error from "../components/Error";
-import Loading from "../components/Loading";
 
 function RegisterUser({ loggedIn, setLoggedIn }) {
     const API_URL = import.meta.env.VITE_API_URL;
@@ -65,7 +64,6 @@ function RegisterUser({ loggedIn, setLoggedIn }) {
     }
 
     if (error) return <Error />;
-    else if (loading) return <Loading />;
     else
         return (
             <div className="register-user">

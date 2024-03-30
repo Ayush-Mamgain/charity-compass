@@ -32,4 +32,10 @@ app.get('/', (req, res) => res.send('Welcome to charity finder'));
 const userRouter = require('./routes/user.routes');
 app.use('/api/users', userRouter);
 
+const categoryRouter = require('./routes/category.routes');
+app.use('/api/category', categoryRouter);
+
+const charityRouter = require('./routes/charity.routes');
+app.use('/api/charity', charityRouter);
+
 module.exports = app;

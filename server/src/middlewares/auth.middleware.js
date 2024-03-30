@@ -42,7 +42,7 @@ const verifyToken = asyncHandler(async function (req, res, next) {
     console.log(req.cookies);
     const accessToken = req.cookies?.accessToken || req.header('Authorization')?.replace('Bearer ', '');
     //req.header('Authorization') is same as req.headers['Authorization']
-    console.log(accessToken);
+    // console.log(accessToken);
 
     //validate the token
     if (!accessToken)

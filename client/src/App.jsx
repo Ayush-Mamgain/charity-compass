@@ -4,6 +4,7 @@ import LoginUser from "./pages/LoginUser.jsx";
 import Home from "./pages/Home.jsx";
 import { useState, useEffect } from "react";
 import Dashboard from "./pages/Dashboard.jsx";
+import Charities from "./pages/Charities.jsx";
 // import { Toaster } from "react-hot-toast";
 
 function App() {
@@ -37,6 +38,7 @@ function App() {
                 <Route exact path="/loginUser" element={<LoginUser loggedIn={loggedIn} setLoggedIn={setLoggedIn} />} />
                 <Route exact path="/registerUser" element={<RegisterUser loggedIn={loggedIn} setLoggedIn={setLoggedIn} />} />
                 <Route exact path="/dashboard" element={<Dashboard />}/>
+                <Route exact path="/charities" element={<Charities />}/>
             </Routes>
     );
 }

@@ -1,23 +1,5 @@
 const mongoose = require('mongoose');
 
-const bankSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        trim: true,
-        required: true
-    },
-    ifscCode: {
-        type: String,
-        trim: true,
-        required: true
-    },
-    accountNumber: {
-        type: String,
-        trim: true,
-        required: true
-    }
-});
-
 const charitySchema = new mongoose.Schema({
     name: {
         type: String,
@@ -48,7 +30,12 @@ const charitySchema = new mongoose.Schema({
         ref: 'Address',
         required: true
     },
-    banks: [bankSchema],
+    banks: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Bank'
+        }
+    ],
     donationLink: {
         type: String,
         required: true,
@@ -64,4 +51,5 @@ const charitySchema = new mongoose.Schema({
     }
 }, { timestamps: true });
 
-export default mongoose.model('Charity', charitySchema);
+const Charity = mongoose.model('Charity', charitySchema);
+module.exports = Charity;

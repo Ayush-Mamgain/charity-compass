@@ -50,6 +50,7 @@ function Home({ loggedIn, setLoggedIn }) {
                     <button onClick={() => navigate('/loginUser')}>Login</button>
                 </>
             )}
+            <button onClick={() => navigate('/charities')}>Support A Cause</button>
         </div>
     );
 }

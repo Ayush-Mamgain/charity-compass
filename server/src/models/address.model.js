@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 
 const addressSchema = new mongoose.Schema({
-    street: {
+    //the address will either point to a user or to a charity
+    district: {
         type: String,
-        required: true,
         trim: true
     },
     city: {
@@ -28,4 +28,5 @@ const addressSchema = new mongoose.Schema({
     },
 });
 
-export default mongoose.model('Address', addressSchema);
+const Address = mongoose.model('Address', addressSchema);
+module.exports = Address;

@@ -26,4 +26,5 @@ const donationSchema = new mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model('Donation', donationSchema);
+const Donation = mongoose.model('Donation', donationSchema);
+module.exports = Donation;

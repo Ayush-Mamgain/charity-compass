@@ -3,6 +3,7 @@ const ApiError = require('../utils/ApiError');
 const ApiResponse = require('../utils/ApiResponse');
 const User = require('../models/user.model');
 const jwt = require('jsonwebtoken');
+const Donation = require('../models/donation.model');
 
 const registerUser = asyncHandler(async function (req, res, next) {
     //get the details from request
@@ -162,4 +163,24 @@ const refreshToken = asyncHandler(async function (req, res) {
     }, 'Re-Authentication successful'));
 });
 
-module.exports = { registerUser, loginUser, logoutUser, isLoggedIn };
+const getUserProfile = asyncHandler(async (req, res) => {
+    const { user } = req;
+    // console.log(user);
+
+    if(!user)
+        throw new ApiError(400, 'User not found');
+
+    //return response
+    return res.status(200).json(new ApiResponse(200, user, 'User profile fetched successfully'));
+});
+
+const getDonations = asyncHandler(async (req, res) => {
+    const { user } = req;
+    const donations = [];
+    for(let donationId of user.donations) {
+        donations.push(await Donation.findById(donationId));
+    }
+    return res.status(200).json(new ApiResponse(200, donations, 'All donations fetched successfully'));
+});
+
+module.exports = { registerUser, loginUser, logoutUser, isLoggedIn, refreshToken, getUserProfile, getDonations };

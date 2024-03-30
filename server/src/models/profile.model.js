@@ -15,6 +15,10 @@ const contactNumberSchema = new mongoose.Schema({
 });
 
 const profileSchema = new mongoose.Schema({
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    },
     address: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Address'
