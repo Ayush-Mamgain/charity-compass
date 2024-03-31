@@ -68,8 +68,12 @@ const getCharityByCategory = asyncHandler(async (req, res) => {
             throw new ApiError(402, 'Invalid Category');
 
         //get all the charities of that category
-        for (let charityId of category.charities)
-            charities.push(await Charity.findById(charityId).populate('address').populate('category').exec());
+        const { user } = req;
+        for (let charityId of category.charities) {
+            const charity = await Charity.findById(charityId).populate('address').populate('category').exec();
+            charity.bookmarked = user.bookmarks.includes(charityId);
+            charities.push(charity);
+        }
     }
 
     //return the charities in response

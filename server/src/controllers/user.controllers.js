@@ -10,16 +10,16 @@ const registerUser = asyncHandler(async function (req, res, next) {
     const { username, email, password, confirmPassword } = req.body;
 
     //validate
-    if([username, email, password, confirmPassword].some(field => !field || field.trim() === ''))
+    if ([username, email, password, confirmPassword].some(field => !field || field.trim() === ''))
         throw new ApiError(400, 'All fields are required');
 
     //check if user already exists
-    const existedUser = await User.findOne({email});
-    if(existedUser)
+    const existedUser = await User.findOne({ email });
+    if (existedUser)
         throw new ApiError(409, 'User already exists');
 
     //match the passwords
-    if(password !== confirmPassword) 
+    if (password !== confirmPassword)
         throw new ApiError(400, 'Passwords do not match');
 
     //create entry in the database
@@ -33,7 +33,7 @@ const registerUser = asyncHandler(async function (req, res, next) {
     const createdUser = await User.findById(user._id).select(
         '-password -refreshToken'
     );
-    if(!createdUser)
+    if (!createdUser)
         throw new ApiError(500, 'Something went wrong while creating the user');
 
     console.log(user.password);
@@ -51,7 +51,7 @@ async function generateAccessAndRefreshToken(userId) {
         user.refreshToken = refreshToken;
         await user.save();
         return { accessToken, refreshToken };
-    } catch(error) {
+    } catch (error) {
         throw new ApiError(500, error.message || 'Something went wront while generating access and refresh tokens', [error]);
     }
 }
@@ -61,17 +61,17 @@ const loginUser = asyncHandler(async (req, res) => {
     const { email, password, rememberMe } = req.body;
 
     //validate
-    if(!email || !password)
+    if (!email || !password)
         throw new ApiError(400, 'All fields are required');
 
     //check if user exists
-    const user = await User.findOne({email});
-    if(!user)
+    const user = await User.findOne({ email });
+    if (!user)
         throw new ApiError(401, 'User not registered');
 
     //compare the passwords
     const isPasswordValid = await user.isPasswordCorrect(password);
-    if(!isPasswordValid)
+    if (!isPasswordValid)
         throw new ApiError(409, 'Incorrect Password');
 
     //generate access and refresh token
@@ -79,20 +79,20 @@ const loginUser = asyncHandler(async (req, res) => {
 
     //get the final user doc. that will be returned to the response
     const loggedInUser = await User.findById(user._id).select('-password -refreshToken'); //removing the refreshToken from here because it will provided via cookie
-    
+
     //return response with the cookie tokens
     const cookieOptions = {
         httpOnly: true,
         //secure: true
     }
     return res.status(200)
-    .cookie('accessToken', accessToken)
-    .cookie('refreshToken', refreshToken)
-    .json(new ApiResponse(200, {
-        user: loggedInUser,
-        refreshToken,
-        accessToken
-    }, 'User logged in successfully')); //if cookies are not available for some reason then we can grant the tokens through the response body
+        .cookie('accessToken', accessToken)
+        .cookie('refreshToken', refreshToken)
+        .json(new ApiResponse(200, {
+            user: loggedInUser,
+            refreshToken,
+            accessToken
+        }, 'User logged in successfully')); //if cookies are not available for some reason then we can grant the tokens through the response body
 });
 
 const logoutUser = asyncHandler(async (req, res) => {
@@ -109,16 +109,16 @@ const logoutUser = asyncHandler(async (req, res) => {
         httpOnly: true
     }
     return res.status(200)
-    .clearCookie('accessToken', cookieOptions)
-    .clearCookie('refreshToken', cookieOptions)
-    .json(new ApiResponse(200, {}, 'User logged out successfully'));
+        .clearCookie('accessToken', cookieOptions)
+        .clearCookie('refreshToken', cookieOptions)
+        .json(new ApiResponse(200, {}, 'User logged out successfully'));
 });
 
 function isLoggedIn(req, res) {
     return res.status(200)
-    .json(new ApiResponse(200, {
-        isLoggedIn: true
-    }, 'User is logged in'));
+        .json(new ApiResponse(200, {
+            isLoggedIn: true
+        }, 'User is logged in'));
 }
 
 const refreshToken = asyncHandler(async function (req, res) {
@@ -126,25 +126,25 @@ const refreshToken = asyncHandler(async function (req, res) {
     const oldRefreshToken = req.cookies?.refreshToken || req.body?.refreshToken || req.header('Authorization')?.refreshToken;
 
     //validate
-    if(!oldRefreshToken)
+    if (!oldRefreshToken)
         throw new ApiError(400, 'Refresh Token not found');
 
     //decode the token
     let decodedToken;
     try {
         decodedToken = await jwt.verify(oldRefreshToken, process.env.REFRESH_TOKEN_SECRET);
-    } catch(error) {
-        console.error('Error in refreshing token"\n',error);
-        throw new ApiError(401, 'Invalid Token',error);
+    } catch (error) {
+        console.error('Error in refreshing token"\n', error);
+        throw new ApiError(401, 'Invalid Token', error);
     }
 
     //get the user
     const user = await User.findById(decodedToken._id);
-    if(!user)
+    if (!user)
         throw new ApiError(402, 'User corresponding to token not found(Invalid');
 
     //verify the user and it's token
-    if(oldRefreshToken !== user.refreshToken)
+    if (oldRefreshToken !== user.refreshToken)
         throw new ApiError(403, 'Token is either used for expired');
 
     //generate new access and refresh tokens for the user
@@ -156,18 +156,18 @@ const refreshToken = asyncHandler(async function (req, res) {
 
     //return the response and set the cookies
     return res.status(200)
-    .cookie('accessToken', accessToken, cookieOptions)
-    .cookie('refreshToken', refreshToken, cookieOptions)
-    .json(new ApiResponse(200, {
-        accessToken
-    }, 'Re-Authentication successful'));
+        .cookie('accessToken', accessToken, cookieOptions)
+        .cookie('refreshToken', refreshToken, cookieOptions)
+        .json(new ApiResponse(200, {
+            accessToken
+        }, 'Re-Authentication successful'));
 });
 
 const getUserProfile = asyncHandler(async (req, res) => {
     const { user } = req;
     // console.log(user);
 
-    if(!user)
+    if (!user)
         throw new ApiError(400, 'User not found');
 
     //return response
@@ -177,10 +177,40 @@ const getUserProfile = asyncHandler(async (req, res) => {
 const getDonations = asyncHandler(async (req, res) => {
     const { user } = req;
     const donations = [];
-    for(let donationId of user.donations) {
+    for (let donationId of user.donations) {
         donations.push(await Donation.findById(donationId));
     }
     return res.status(200).json(new ApiResponse(200, donations, 'All donations fetched successfully'));
 });
 
-module.exports = { registerUser, loginUser, logoutUser, isLoggedIn, refreshToken, getUserProfile, getDonations };
+const updateBookmark = asyncHandler(async (req, res) => {
+    const userId = req.user._id;
+    const { charityId } = req.body;
+    console.log(userId);
+    console.log(charityId);
+    if (!userId || !charityId)
+        throw new ApiError(400, 'userId or charityId not found');
+
+    const user = await User.findById(userId);
+    let updatedUser;
+    if(!user.savedCharities.includes(charityId)) {
+        updatedUser = await User.findByIdAndUpdate(userId, {
+            $push: {
+                savedCharities: charityId
+            }
+        }, { new: true }).populate('savedCharities').exec();
+    } else {
+        updatedUser = await User.findByIdAndUpdate(userId, {
+            $pull: {
+                savedCharities: charityId
+            }
+        }, { new: true }).populate('savedCharities').exec();
+    }
+
+    if (!user)
+        throw new ApiError(402, 'User not found');
+
+    return res.status(200).json(new ApiResponse(200, updatedUser, 'Bookmark updated successfully'));
+});
+
+module.exports = { registerUser, loginUser, logoutUser, isLoggedIn, refreshToken, getUserProfile, getDonations, updateBookmark };
