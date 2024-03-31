@@ -46,6 +46,12 @@ const charitySchema = new mongoose.Schema({
         ref: 'User',
         required: true
     },
+    funds: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Donation'
+        }
+    ],
     image: {
         type: String,
     }

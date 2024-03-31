@@ -25,6 +25,9 @@ app.use(express.static('public'));
 
 app.use(cookieParser());
 
+const ejs = require('ejs');
+app.set('view engine', 'ejs');
+
 //default route
 app.get('/', (req, res) => res.send('Welcome to charity finder'));
 
@@ -37,5 +40,8 @@ app.use('/api/category', categoryRouter);
 
 const charityRouter = require('./routes/charity.routes');
 app.use('/api/charity', charityRouter);
+
+const donationRouter = require('./routes/donation.routes');
+app.use('/api/donation', donationRouter);
 
 module.exports = app;

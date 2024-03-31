@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-function CharityFilter({ category, setCategory }) {
+function CharityFilter({ setCategory }) {
     const API_URL = import.meta.env.VITE_API_URL;
     const [categories, setCategories] = useState([]);
 

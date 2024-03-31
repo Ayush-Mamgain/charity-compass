@@ -4,6 +4,7 @@ const ApiResponse = require('../utils/ApiResponse');
 const User = require('../models/user.model');
 const jwt = require('jsonwebtoken');
 const Donation = require('../models/donation.model');
+// const ejs = require('ejs');
 
 const registerUser = asyncHandler(async function (req, res, next) {
     //get the details from request
@@ -26,7 +27,9 @@ const registerUser = asyncHandler(async function (req, res, next) {
     const user = await User.create({
         username,
         email,
-        password
+        password,
+        savedCharities: [],
+        donations: []
     });
 
     //remove the password and token
@@ -165,12 +168,10 @@ const refreshToken = asyncHandler(async function (req, res) {
 
 const getUserProfile = asyncHandler(async (req, res) => {
     const { user } = req;
-    // console.log(user);
 
     if (!user)
         throw new ApiError(400, 'User not found');
 
-    //return response
     return res.status(200).json(new ApiResponse(200, user, 'User profile fetched successfully'));
 });
 
@@ -186,8 +187,6 @@ const getDonations = asyncHandler(async (req, res) => {
 const updateBookmark = asyncHandler(async (req, res) => {
     const userId = req.user._id;
     const { charityId } = req.body;
-    console.log(userId);
-    console.log(charityId);
     if (!userId || !charityId)
         throw new ApiError(400, 'userId or charityId not found');
 

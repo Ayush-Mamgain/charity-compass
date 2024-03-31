@@ -28,7 +28,7 @@ function Charities() {
 
     return (
         <div className="charities">
-            <CharityFilter category={category} setCategory={setCategory} />
+            <CharityFilter setCategory={setCategory} />
             {
                 charities.map(charity => <CharityCard key={charity._id} charity={charity}/>)
             }

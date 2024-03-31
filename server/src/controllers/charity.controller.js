@@ -27,8 +27,8 @@ const registerCharity = asyncHandler(async (req, res) => {
     const owner = req.user;
 
     //verify the category
-    const registeredCategory = await Category.findOne({name: category});
-    if(!registeredCategory)
+    const registeredCategory = await Category.findOne({ name: category });
+    if (!registeredCategory)
         throw new ApiError(403, 'Category not available');
 
     //create the address
@@ -56,12 +56,20 @@ const registerCharity = asyncHandler(async (req, res) => {
 const getCharityByCategory = asyncHandler(async (req, res) => {
     //get the category name from req.
     const { categoryName } = req.body;
+    const userId = req.user._id;
+    const user = await User.findById(userId);
 
     let charities = [];
     //validate
-    if (!categoryName || categoryName.trim() === '') //get all the charities
+    if (!categoryName || categoryName.trim() === '') {
         charities = await Charity.find({}).populate('address').populate('category').exec();
-    else {
+        charities = charities.map(charity => {
+            return {
+                ...charity.toObject(), // Convert the Mongoose document to a plain JavaScript object
+                bookmarked: user.savedCharities.includes(charity._id) // Add the new field 'bookmark' and set its initial value to false
+            };
+        });
+    } else {
         //find the category corresponding to that name
         const category = await Category.findOne({ name: categoryName });
         if (!category)
@@ -71,8 +79,9 @@ const getCharityByCategory = asyncHandler(async (req, res) => {
         const { user } = req;
         for (let charityId of category.charities) {
             const charity = await Charity.findById(charityId).populate('address').populate('category').exec();
-            charity.bookmarked = user.bookmarks.includes(charityId);
-            charities.push(charity);
+            const updatedCharity = charity.toObject(); 
+            updatedCharity.bookmarked = user.savedCharities.includes(charityId);
+            charities.push(updatedCharity);
         }
     }
 
