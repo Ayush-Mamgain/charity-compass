@@ -17,7 +17,12 @@ function CharityCard({ charity }) {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({ charityId: charity._id }),
-        }).then((result) => setBookmark((prevMark) => !prevMark));
+        }).
+        then((response) => response.json())
+        .then(result => {
+            console.log(result);
+            setBookmark(prevValue => !prevValue);
+        });
     }
     
     return (

@@ -1,6 +1,5 @@
-import { useEffect } from "react";
-
-const { default: DonationCard } = require("../components/DonationCard");
+import { useState, useEffect } from "react";
+import DonationCard from "./DonationCard";
 
 function Donations() {
     const API_URL = import.meta.env.VITE_API_URL;
@@ -16,7 +15,7 @@ function Donations() {
             },
         })
         .then(response => response.json())
-        .then(result => setDonations(result.data))
+        .then(result => { console.log(result); setDonations(result.data) })
         .catch(error => console.error(error));
     }
 
@@ -27,8 +26,10 @@ function Donations() {
     return (
         <div className="donations">
             {
-                donations.map(donation => <DonationCard donation={donation} />)
+                donations.map(donation => <DonationCard key={donation._id} donation={donation} />)
             }
         </div>
     )
 }
+
+export default Donations;

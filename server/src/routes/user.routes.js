@@ -1,5 +1,5 @@
 const userRouter = require('express').Router();
-const { registerUser, loginUser, logoutUser, isLoggedIn, getUserProfile, getDonations, updateBookmark } = require('../controllers/user.controllers');
+const { registerUser, loginUser, logoutUser, isLoggedIn, getUserProfile, getDonations, updateBookmark, getSavedCharities } = require('../controllers/user.controllers');
 const { verifyToken, authN } = require('../middlewares/auth.middleware');
 
 
@@ -12,4 +12,6 @@ userRouter.post('/logout',verifyToken, logoutUser);
 userRouter.get('/getUserProfile', verifyToken, getUserProfile);
 userRouter.get('/getDonations', verifyToken, getDonations);
 userRouter.put('/updateBookmark', verifyToken, updateBookmark);
+userRouter.get('/getSavedCharities',verifyToken, getSavedCharities);
+
 module.exports = userRouter;

@@ -212,4 +212,18 @@ const updateBookmark = asyncHandler(async (req, res) => {
     return res.status(200).json(new ApiResponse(200, updatedUser, 'Bookmark updated successfully'));
 });
 
-module.exports = { registerUser, loginUser, logoutUser, isLoggedIn, refreshToken, getUserProfile, getDonations, updateBookmark };
+const getSavedCharities = asyncHandler(async (req, res) => {
+    const { user } = req;
+    const fullUser = await User.findById(user._id).populate('savedCharities');
+    const { savedCharities } = fullUser;
+    const bookmarks = savedCharities.map(charity => {
+        return {
+            ...charity.toObject(),
+            bookmarked: true
+        }
+    });
+    console.log(bookmarks);
+    return res.status(200).json(new ApiResponse(200, bookmarks, 'Bookmarked charities fetched successfully'));
+});
+
+module.exports = { registerUser, loginUser, logoutUser, isLoggedIn, refreshToken, getUserProfile, getDonations, updateBookmark, getSavedCharities };

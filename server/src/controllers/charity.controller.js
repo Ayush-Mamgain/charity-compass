@@ -98,7 +98,7 @@ const getCharityById = asyncHandler(async (req, res) => {
         throw new ApiError(400, 'Charity id not found');
 
     //get the charity
-    const charity = await Charity.findById(id);
+    const charity = await Charity.findById(id).populate('address').populate('category').exec();
     if (!charity)
         throw new ApiError(400, 'Charity corresponding to that id not found');
 
