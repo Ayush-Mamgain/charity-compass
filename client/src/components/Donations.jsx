@@ -8,15 +8,17 @@ function Donations() {
     async function fetchDonations() {
         const reqUrl = `${API_URL}/api/users/getDonations`;
         await fetch(reqUrl, {
-            method: 'GET',
-            credentials: 'include',
+            method: "GET",
+            credentials: "include",
             headers: {
                 "Content-Type": "application/json",
             },
         })
-        .then(response => response.json())
-        .then(result => { console.log(result); setDonations(result.data) })
-        .catch(error => console.error(error));
+            .then((response) => response.json())
+            .then((result) => {
+                console.log(result);
+            })
+            .catch((error) => console.error(error));
     }
 
     useEffect(() => {
@@ -25,11 +27,11 @@ function Donations() {
 
     return (
         <div className="donations">
-            {
-                donations.map(donation => <DonationCard key={donation._id} donation={donation} />)
-            }
+            {donations.map((donation) => (
+                <DonationCard key={donation._id} donation={donation} />
+            ))}
         </div>
-    )
+    );
 }
 
 export default Donations;

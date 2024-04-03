@@ -2,11 +2,41 @@ const asyncHandler = require('../utils/asyncHandler');
 const ApiError = require('../utils/ApiError');
 const ApiResponse = require('../utils/ApiResponse');
 const User = require('../models/user.model');
+const Otp = require('../models/otp.model');
 const jwt = require('jsonwebtoken');
 const Donation = require('../models/donation.model');
-// const ejs = require('ejs');
+const otpGenerator = require('otp-generator');
 
-const registerUser = asyncHandler(async function (req, res, next) {
+const sendOtp = asyncHandler(async function (request, res) {
+    //get the email from request body
+    const { email } = request.body;
+    console.log('Email received for sending otp:', email);
+
+    //check if the user already exists
+    if (await User.findOne({ email })) {
+        throw new ApiError(400, 'User already exists');
+    }
+
+    //create the otp
+    let otp = otpGenerator.generate(6, {
+        upperCaseAlphabets: false,
+        lowerCaseAlphabets: false,
+        specialChars: false
+    });
+
+    //save the otp in the database
+    const savedOtp = await Otp.create({
+        otp,
+        email
+    });
+    console.log('Unique otp for mail verification:', savedOtp);
+    //the mail would be send on saving this
+
+    //return successful response
+    return res.status(200).json(new ApiResponse(200, { savedOtp }, 'OTP sent successfully'));
+});
+
+const registerUser = asyncHandler(async function (req, res) {
     //get the details from request
     const { username, email, password, confirmPassword } = req.body;
 
@@ -185,14 +215,14 @@ const getDonations = asyncHandler(async (req, res) => {
 });
 
 const updateBookmark = asyncHandler(async (req, res) => {
-    const { user }= req;
+    const { user } = req;
     const { charityId } = req.body;
 
     if (!user || !charityId)
         throw new ApiError(400, 'userId or charityId not found');
 
     let updatedUser;
-    if(!user.savedCharities.includes(charityId)) {
+    if (!user.savedCharities.includes(charityId)) {
         updatedUser = await User.findByIdAndUpdate(user._id, {
             $push: {
                 savedCharities: charityId
@@ -225,4 +255,11 @@ const getSavedCharities = asyncHandler(async (req, res) => {
     return res.status(200).json(new ApiResponse(200, bookmarks, 'Bookmarked charities fetched successfully'));
 });
 
-module.exports = { registerUser, loginUser, logoutUser, isLoggedIn, refreshToken, getUserProfile, getDonations, updateBookmark, getSavedCharities };
+const getTotalDonation = asyncHandler(async (req, res) => {
+    const userId = req.user._id;
+    const user = await User.findById(userId).populate('donations');
+    const totalDonation = user.donations.reduce((ac, cv) => ac + cv.amount, 0);
+    return res.status(200).json(new ApiResponse(200, { totalDonation }, 'Total contribution fetched successfully'));
+});
+
+module.exports = { sendOtp, registerUser, loginUser, logoutUser, isLoggedIn, refreshToken, getUserProfile, getDonations, updateBookmark, getSavedCharities, getTotalDonation };

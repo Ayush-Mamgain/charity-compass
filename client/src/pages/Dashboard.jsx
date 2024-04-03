@@ -7,6 +7,7 @@ function Dashboard() {
     const [user, setUser] = useState({});
     const [viewDonations, setViewDonations] = useState(false);
     const [viewBookmarks, setViewBookmarks] = useState(false);
+    const [totalAmount, setTotalAmount] = useState(0);
 
     //get the user details from the server
     async function getUserInfo() {
@@ -24,8 +25,26 @@ function Dashboard() {
             .catch((error) => console.error(error));
     }
 
+    async function getTotalContribution() {
+        const reqUrl = `${API_URL}/api/users/getTotalDonation`;
+        await fetch(reqUrl, {
+            method: "GET",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+            .then((response) => response.json())
+            .then((result) =>{
+                console.log(result.data);
+                setTotalAmount((result.data.totalDonation/100).toFixed(2));
+            })
+            .catch((error) => console.error(error));
+    }
+
     useEffect(() => {
         getUserInfo();
+        getTotalContribution();
     }, []);
 
     return (
@@ -37,6 +56,7 @@ function Dashboard() {
                 <div className="user-info">
                     <h2>{user.username}</h2>
                     <p>{user.email}</p>
+                    <p>Contribution so far: ₹{totalAmount}</p>
                     <div className="user-buttons">
                         <button
                             onClick={() => {
@@ -55,10 +75,12 @@ function Dashboard() {
                             Saved Charities
                         </button>
                     </div>
-                    <div className="view-container">
-                        {viewDonations && <Donations />}
-                        {viewBookmarks && <Bookmarks />}
-                    </div>
+                    {(viewDonations || viewBookmarks) && (
+                        <div className="view-container">
+                            {viewDonations && <Donations />}
+                            {viewBookmarks && <Bookmarks />}
+                        </div>
+                    )}
                 </div>
             </div>
         </div>
