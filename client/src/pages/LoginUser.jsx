@@ -68,9 +68,9 @@ function LoginUser({ loggedIn, setLoggedIn }) {
     if(error) return <Error />
     return (
         <div className="login-user">
-            <form onSubmit={submitHandler}>
+            <form onSubmit={submitHandler} className="login-form">
                 <h1>Login</h1>
-                <div>
+                <div className="form">
                     <div>
                         <input
                             name="email"
@@ -80,7 +80,7 @@ function LoginUser({ loggedIn, setLoggedIn }) {
                             onChange={changeHandler}
                         />
                     </div>
-                    <div>
+                    <div className="pass">
                         <input
                             name="password"
                             type={viewPassword ? "text" : "password"}
@@ -93,7 +93,7 @@ function LoginUser({ loggedIn, setLoggedIn }) {
                                 setViewPassword((prevValue) => !prevValue);
                             }}
                         >
-                            {!viewPassword ? <FaEye /> : <FaEyeSlash />}
+                            {!viewPassword ? <FaEye className="eye"/> : <FaEyeSlash className="eye"/>}
                         </div>
                     </div>
                 </div>

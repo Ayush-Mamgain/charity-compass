@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import CharityCard from './CharityCard';
+import CharityCard from "./CharityCard";
 
 function DonationCard({ donation }) {
     const API_URL = import.meta.env.VITE_API_URL;
@@ -20,7 +20,7 @@ function DonationCard({ donation }) {
                 console.log(result);
                 setCharity(result.data);
             })
-            .catch(error => console.error(error));
+            .catch((error) => console.error(error));
     }
 
     useEffect(() => {
@@ -39,9 +39,9 @@ function DonationCard({ donation }) {
             <button onClick={() => setExpandCharity((prevValue) => !prevValue)}>
                 view {expandCharity ? "less" : "more"}
             </button>
-            {
-                expandCharity && <CharityCard charity={charity}/>
-            }
+            <div className="donation-charity">
+                {expandCharity && <CharityCard charity={charity} />}
+            </div>
         </div>
     );
 }

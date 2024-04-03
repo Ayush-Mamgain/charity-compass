@@ -56,9 +56,7 @@ const registerCharity = asyncHandler(async (req, res) => {
 const getCharityByCategory = asyncHandler(async (req, res) => {
     //get the category name from req.
     const { categoryName } = req.body;
-    const userId = req.user._id;
-    const user = await User.findById(userId);
-
+    const { user } = req;
     let charities = [];
     //validate
     if (!categoryName || categoryName.trim() === '') {
@@ -102,8 +100,14 @@ const getCharityById = asyncHandler(async (req, res) => {
     if (!charity)
         throw new ApiError(400, 'Charity corresponding to that id not found');
 
+    const { user } = req;
+    const fullCharity = {
+        ...charity.toObject(),
+        bookmarked: user.savedCharities.includes(charity._id)
+    }
+
     //return the response
-    return res.status(200).json(new ApiResponse(200, charity, 'Charity fetched successfully'));
+    return res.status(200).json(new ApiResponse(200, fullCharity, 'Charity fetched successfully'));
 });
 
 module.exports = { registerCharity, getCharityByCategory, getCharityById };

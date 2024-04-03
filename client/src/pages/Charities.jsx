@@ -28,10 +28,12 @@ function Charities() {
 
     return (
         <div className="charities">
-            <CharityFilter setCategory={setCategory} />
-            {
-                charities.map(charity => <CharityCard key={charity._id} charity={charity}/>)
-            }
+            <CharityFilter category={category} setCategory={setCategory} />
+            <div className="charity-container">
+                {
+                    charities.map(charity => <CharityCard key={charity._id} charity={charity}/>)
+                }
+            </div>
         </div>
     )
 }

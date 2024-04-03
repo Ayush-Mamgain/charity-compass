@@ -185,21 +185,21 @@ const getDonations = asyncHandler(async (req, res) => {
 });
 
 const updateBookmark = asyncHandler(async (req, res) => {
-    const userId = req.user._id;
+    const { user }= req;
     const { charityId } = req.body;
-    if (!userId || !charityId)
+
+    if (!user || !charityId)
         throw new ApiError(400, 'userId or charityId not found');
 
-    const user = await User.findById(userId);
     let updatedUser;
     if(!user.savedCharities.includes(charityId)) {
-        updatedUser = await User.findByIdAndUpdate(userId, {
+        updatedUser = await User.findByIdAndUpdate(user._id, {
             $push: {
                 savedCharities: charityId
             }
         }, { new: true }).populate('savedCharities').exec();
     } else {
-        updatedUser = await User.findByIdAndUpdate(userId, {
+        updatedUser = await User.findByIdAndUpdate(user._id, {
             $pull: {
                 savedCharities: charityId
             }
@@ -222,7 +222,6 @@ const getSavedCharities = asyncHandler(async (req, res) => {
             bookmarked: true
         }
     });
-    console.log(bookmarks);
     return res.status(200).json(new ApiResponse(200, bookmarks, 'Bookmarked charities fetched successfully'));
 });
 

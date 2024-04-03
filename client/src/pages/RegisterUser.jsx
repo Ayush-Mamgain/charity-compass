@@ -67,8 +67,7 @@ function RegisterUser({ loggedIn, setLoggedIn }) {
     else
         return (
             <div className="register-user">
-                {/* <img src={loginBg} alt="login background" /> */}
-                <form onSubmit={submitHandler}>
+                <form onSubmit={submitHandler} className="register-form">
                     <h1>Register</h1>
                     <div>
                         <div>
@@ -98,7 +97,7 @@ function RegisterUser({ loggedIn, setLoggedIn }) {
                                 onChange={changeHandler}
                             />
                         </div>
-                        <div>
+                        <div className="pass">
                             <input
                                 name="confirmPassword"
                                 type={viewPassword ? "text" : "password"}
@@ -111,7 +110,7 @@ function RegisterUser({ loggedIn, setLoggedIn }) {
                                     setViewPassword((prevValue) => !prevValue);
                                 }}
                             >
-                                {!viewPassword ? <FaEye /> : <FaEyeSlash />}
+                                {!viewPassword ? <FaEye className="eye"/> : <FaEyeSlash className="eye" />}
                             </div>
                         </div>
                     </div>

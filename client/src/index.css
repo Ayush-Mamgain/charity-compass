@@ -4,6 +4,15 @@
     box-sizing: border-box;
 }
 
+:root {
+    --primary-blue: #019eff;
+    --primary-cream: #f3f2e7;
+    --primary-cream-dark: #e3e2cd;
+    --primary-blue-dark: #7e8ab8;
+    --primary-red: red;
+    --primary-border: 1px solid black;
+    --primary-text-color: black;
+}
 body {
     width: 100vw;
     height: 100vh;
@@ -11,17 +20,589 @@ body {
     color: black;
 }
 
-/* ------------------------dashboard------------------------- */
-.dashboard {
+/* -------------------------registration-form------------------------- */
 
-}
-.user-card {
+.register-user {
     display: flex;
-    border-radius: 10px;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(
+        135deg,
+        var(--primary-blue),
+        var(--primary-cream)
+    );
 }
-.user-info {
+
+.register-form {
+    background-color: var(--primary-cream-dark);
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    width: 100%;
+}
+
+.register-form h1 {
+    text-align: center;
+    color: var(--primary-blue);
+    padding-bottom: 1.5rem;
+}
+
+.register-form input {
+    width: 100%;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    border: 1px solid var(--primary-blue-dark);
+    border-radius: 0.25rem;
+    font-size: 1rem;
+}
+
+.register-form input:focus {
+    outline: none;
+    border-color: var(--primary-blue);
+}
+
+.register-form div:nth-child(4) div {
+    color: var(--primary-blue);
+    cursor: pointer;
+}
+
+.register-form button[type="submit"] {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: var(--primary-blue);
+    color: var(--primary-cream);
+    border: none;
+    border-radius: 0.25rem;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.register-form button[type="submit"]:hover {
+    background-color: var(--primary-blue-dark);
+}
+
+.register-form div:last-child {
+    text-align: center;
+    color: var(--primary-blue);
+    padding-top: 1rem;
+}
+
+.register-form div:last-child a {
+    color: var(--primary-red);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* -------------------------------------login-form-------------------------------------- */
+
+.login-user {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(
+        135deg,
+        var(--primary-blue),
+        var(--primary-cream)
+    );
+}
+
+.login-form {
+    background-color: var(--primary-cream-dark);
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    width: 100%;
     display: flex;
     flex-direction: column;
+    align-items: center;
+}
+
+.login-form h1 {
+    text-align: center;
+    color: var(--primary-blue);
+    padding-bottom: 1.5rem;
+}
+
+.login-form input {
+    width: 100%;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    border: 1px solid var(--primary-blue-dark);
+    border-radius: 0.25rem;
+    font-size: 1rem;
+}
+
+.login-form input:focus {
+    outline: none;
+    border-color: var(--primary-blue);
+}
+
+.login-form .input-group div {
+    color: var(--primary-blue);
+    cursor: pointer;
+}
+
+.login-form div:nth-child(2) {
+    /* border: var(--primary-border); */
+    width: 100%;
+}
+
+.login-form div:nth-child(3) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding-bottom: 1rem;
+}
+
+.login-form div:nth-child(3) div {
+    /* border: var(--primary-border); */
+    display: flex;
     gap: 10px;
+    align-items: center;
+}
+
+#user-check {
+    width: fit-content;
+    position: relative;
+    top: 6px;
+}
+
+.login-form div:nth-child(3) div label {
+    /* margin-left: 0.5rem; */
+    color: var(--primary-blue);
+}
+
+.login-form div:nth-child(3) a {
+    color: var(--primary-red);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.login-form button[type="submit"] {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: var(--primary-blue);
+    color: var(--primary-cream);
+    border: none;
+    border-radius: 0.25rem;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.login-form button[type="submit"]:hover {
+    background-color: var(--primary-blue-dark);
+}
+
+.login-form div:last-child {
+    text-align: center;
+    padding-top: 1rem;
+    color: var(--primary-blue);
+}
+
+.login-form div:last-child a {
+    color: var(--primary-red);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* -------------------------------common------------------------------------ */
+.pass {
+    position: relative;
+}
+
+.eye {
+    position: absolute;
+    right: 3%;
+    top: 35%;
+}
+
+/* -----------------------------------CharityCard----------------------------------------- */
+
+.charity-card {
+    background-color: var(--primary-cream);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
+    width: 45%;
+    min-width: max-content;
+    height: min-content;
+    /* margin: 1rem auto; */
+}
+
+.charity-header {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    gap: 2rem;
+    align-items: center;
+    padding-bottom: 1rem;
+}
+
+.charity-header h2 {
+    color: var(--primary-blue);
+    font-size: 1.5rem;
+}
+
+.charity-button-group {
+    /* border: var(--primary-border); */
+    display: flex;
+    align-items: center;
+    gap: 1vw;
+}
+
+.charity-header .charity-button-group button {
+    background-color: var(--primary-blue);
+    color: var(--primary-cream);
+    border: none;
+    border-radius: 50%;
+    width: 2rem;
+    height: 2rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.charity-header button:hover {
+    background-color: var(--primary-blue-dark);
+}
+
+.charity-header .icon-bookmark {
+    color: var(--primary-red);
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.charity-info {
+    padding-top: 1rem;
+}
+
+.charity-info p {
+    color: var(--primary-blue-dark);
+    margin-bottom: 0.5rem;
+}
+
+.charity-info a {
+    color: var(--primary-blue);
+    text-decoration: none;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 1rem;
+}
+
+.charity-info a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+    .charity-card {
+        margin: 1rem;
+    }
+}
+
+/* ---------------------------------------Payment--------------------------------------- */
+
+.payment {
+    background-color: var(--primary-cream-dark);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.payment form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.payment input {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid var(--primary-blue-dark);
+    border-radius: 0.25rem;
+    font-size: 1rem;
+}
+
+.payment input:focus {
+    outline: none;
+    border-color: var(--primary-blue);
+}
+
+.payment input::placeholder {
+    color: var(--primary-blue-dark);
+}
+
+.payment button[type="submit"] {
+    background-color: var(--primary-blue);
+    color: var(--primary-cream);
+    border: none;
+    border-radius: 0.25rem;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+}
+
+.payment button[type="submit"]:hover {
+    background-color: var(--primary-blue-dark);
+}
+
+/* -------------------------------------DonationCard--------------------------------------- */
+
+.donation-card {
+    background-color: var(--primary-cream);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
+    width: max-content;
+    display: flex;
+    flex-direction: column;
+    /* gap: 0.5rem */
+}
+
+.donation-card h2 {
+    color: var(--primary-blue);
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.donation-card h2 span {
+    color: var(--primary-blue-dark);
+    font-weight: normal;
+}
+
+.donation-card p {
+    color: var(--primary-blue-dark);
+    margin-bottom: 0.5rem;
+}
+
+.donation-card button {
+    background-color: var(--primary-blue);
+    color: var(--primary-cream);
+    border: none;
+    border-radius: 0.25rem;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.donation-card button:hover {
+    background-color: var(--primary-blue-dark);
+}
+
+.donation-charity {
+    padding-top: 1rem;
+    margin: auto;
+}
+
+@media (max-width: 600px) {
+    .donation-card {
+        margin: 1rem;
+    }
+}
+
+/* -------------------------------------CharityFilter-------------------------------------- */
+
+.charity-filter {
+    background-color: var(--primary-cream-dark);
+    padding: 1rem;
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
+    /* max-width: 300px; */
+    min-width: 200px;
+    width: max-content;
+    display: flex;
+    flex-direction: column;
     align-items: flex-start;
+    gap: 20px;
+}
+
+.charity-filter label {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    cursor: pointer;
+}
+
+.charity-filter label input[type="radio"] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 1.1rem;
+    height: 1.1rem;
+    border-radius: 50%;
+    border: 2px solid var(--primary-blue-dark);
+    outline: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.charity-filter label input[type="radio"]:checked {
+    background-color: var(--primary-blue);
+}
+
+.charity-filter label span {
+    color: var(--primary-blue-dark);
+    font-weight: bold;
+}
+
+@media (max-width: 600px) {
+    .charity-filter {
+        max-width: 100%;
+        margin: 1rem;
+    }
+}
+
+/* ---------------------------------------Charities------------------------------------------ */
+
+.charities {
+    display: flex;
+    justify-content: space-between;
+    height: 100vh;
+    width: 100vw;
+}
+
+.charity-container {
+    border: var(--primary-border);
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    gap: 2rem;
+    padding: 2rem;
+}
+
+/* -------------------------------------Donations------------------------------------------ */
+
+.donations {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+}
+
+/* ----------------------------------------Bookmarks-------------------------------------- */
+
+.bookmarks {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+}
+
+/* -----------------------------------------Dashboard------------------------------------- */
+
+.dashboard {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: var(--primary-cream);
+    padding: 2rem;
+}
+
+.user-card {
+    background-color: var(--primary-cream-dark);
+    border-radius: 0.5rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.user-image {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-top: 2rem;
+    border: 4px solid var(--primary-blue);
+}
+
+.user-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.user-info {
+    text-align: center;
+    padding: 2rem;
+}
+
+.user-info h2 {
+    color: var(--primary-blue);
+    margin-bottom: 0.5rem;
+}
+
+.user-info p {
+    color: var(--primary-blue-dark);
+    margin-bottom: 1.5rem;
+}
+
+.user-buttons {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
+.user-buttons button {
+    background-color: var(--primary-blue);
+    color: var(--primary-cream);
+    border: none;
+    border-radius: 0.25rem;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin: 0 0.5rem;
+}
+
+.user-buttons button:hover {
+    background-color: var(--primary-blue-dark);
+}
+
+.view-container {
+    border: var(--primary-border);
+    width: 100%;
+    padding: 2rem;
+    background-color: var(--primary-cream);
+    border-radius: 0.5rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 768px) {
+    .dashboard {
+        padding: 1rem;
+    }
+
+    .user-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .user-buttons button {
+        margin: 0.5rem 0;
+    }
 }
