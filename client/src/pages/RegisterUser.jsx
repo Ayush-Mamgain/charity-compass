@@ -34,7 +34,7 @@ function RegisterUser() {
 
     async function sendOtp(event) {
         event.preventDefault();
-        const reqUrl = `${API_URL}/api/users/sendOtp`;
+        const reqUrl = `${API_URL}/api/otp/sendOtp`;
         await fetch(reqUrl, {
             method: 'POST',
             credentials: 'include',
@@ -54,26 +54,6 @@ function RegisterUser() {
         })
         .catch(error => console.error(error));
     }
-
-    // async function submitHandler(event) {
-    //     //make a post request to register user
-    //     event.preventDefault();
-    //     const response = await fetch(`${API_URL}/api/users/register`, {
-    //         method: "POST",
-    //         headers: {
-    //             "Content-Type": "application/json",
-    //         },
-    //         body: JSON.stringify(formData),
-    //     }); //no need to use catch block here, response will always be returned
-    //     const result = await response.json();
-    //     console.log(result);
-    //     if (result.success) {
-    //         toast.success(result.message);
-    //         setTimeout(() => navigate("/loginUser"), 500);
-    //     } else {
-    //         toast.error(result.message);
-    //     }
-    // }
 
     if (viewOtp) return <Verify formData={formData} setViewOtp={setViewOtp}/>;
     return (

@@ -44,4 +44,7 @@ app.use('/api/charity', charityRouter);
 const donationRouter = require('./routes/donation.routes');
 app.use('/api/donation', donationRouter);
 
+const otpRouter = require('./routes/otp.routes');
+app.use('/api/otp', otpRouter);
+
 module.exports = app;

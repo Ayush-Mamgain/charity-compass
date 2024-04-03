@@ -5,49 +5,6 @@ const User = require('../models/user.model');
 const Otp = require('../models/otp.model');
 const jwt = require('jsonwebtoken');
 const Donation = require('../models/donation.model');
-const otpGenerator = require('otp-generator');
-
-const sendOtp = asyncHandler(async function (request, res) {
-    //get the email from request body
-    const { email } = request.body;
-    console.log('Email received for sending otp:', email);
-
-    //check if the user already exists
-    if (await User.findOne({ email })) {
-        throw new ApiError(400, 'User already exists');
-    }
-
-    //create the otp
-    let otp = otpGenerator.generate(6, {
-        upperCaseAlphabets: false,
-        lowerCaseAlphabets: false,
-        specialChars: false
-    });
-
-    //save the otp in the database
-    const savedOtp = await Otp.create({
-        otp,
-        email
-    });
-    console.log('Unique otp for mail verification:', savedOtp);
-    //the mail would be send on saving this
-
-    //return successful response
-    return res.status(200).json(new ApiResponse(200, { savedOtp }, 'OTP sent successfully'));
-});
-
-const verifyOtp = asyncHandler(async (req, res) => {
-    const { otp,email } = req.body;
-
-    const savedOtp = await Otp.findOne({email}).sort({createdAt: -1}).limit(1);
-    if(savedOtp.otp !== otp) {
-        throw new ApiError(403, 'Invalid OTP');
-    }
-
-    //remove the OTP so that it can't be reused later
-    await Otp.findByIdAndDelete(savedOtp._id);
-    return res.status(200).json(new ApiResponse(200, {}, 'OTP verified successfully'));
-});
 
 const registerUser = asyncHandler(async function (req, res) {
     //get the details from request
@@ -275,4 +232,4 @@ const getTotalDonation = asyncHandler(async (req, res) => {
     return res.status(200).json(new ApiResponse(200, { totalDonation }, 'Total contribution fetched successfully'));
 });
 
-module.exports = { sendOtp, verifyOtp, registerUser, loginUser, logoutUser, isLoggedIn, refreshToken, getUserProfile, getDonations, updateBookmark, getSavedCharities, getTotalDonation };
+module.exports = { registerUser, loginUser, logoutUser, isLoggedIn, refreshToken, getUserProfile, getDonations, updateBookmark, getSavedCharities, getTotalDonation };

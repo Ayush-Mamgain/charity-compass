@@ -34,7 +34,7 @@ function Verify({ formData, setViewOtp }) {
 
     async function registerUser() {
         //make a post request to register user
-        const response = await fetch(`${API_URL}/api/users/register`, {
+        const response = await fetch(`${API_URL}/api/otp/register`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
