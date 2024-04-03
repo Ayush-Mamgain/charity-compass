@@ -1,18 +1,13 @@
 import { useState } from "react";
-// import "./RegisterUser.css";
 import { NavLink } from "react-router-dom";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import Error from "../components/Error";
+import Verify from "../components/Verify";
 
-function RegisterUser({ loggedIn, setLoggedIn }) {
+function RegisterUser() {
     const API_URL = import.meta.env.VITE_API_URL;
-    const navigate = useNavigate();
-
-    // const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(false);
 
     const [formData, setFormData] = useState({
         username: "",
@@ -22,6 +17,7 @@ function RegisterUser({ loggedIn, setLoggedIn }) {
     });
 
     const [viewPassword, setViewPassword] = useState(false);
+    const [viewOtp, setViewOtp] = useState(false);
 
     function changeHandler(event) {
         // console.log(formData);
@@ -36,95 +32,114 @@ function RegisterUser({ loggedIn, setLoggedIn }) {
         });
     }
 
-    async function submitHandler(event) {
-        //make a post request to register user
+    async function sendOtp(event) {
         event.preventDefault();
-        try {
-            const response = await fetch(`${API_URL}/api/users/register`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(formData),
-            }); //no need to use catch block here, response will always be returned
-            const result = await response.json();
-            console.log(result);
-            if (result.success) {
+        const reqUrl = `${API_URL}/api/users/sendOtp`;
+        await fetch(reqUrl, {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({email: formData.email})
+        })
+        .then(response => response.json())
+        .then(result => {
+            if(result.success) {
                 toast.success(result.message);
-                setTimeout(() => navigate("/loginUser"), 500); //no need to use timeout here
+                setTimeout(() => setViewOtp(true), 1000);
             } else {
                 toast.error(result.message);
             }
-        } catch (error) {
-            console.error(error);
-            //navigate to the default error page
-            setError(true);
-        } finally {
-        }
+        })
+        .catch(error => console.error(error));
     }
 
-    if (error) return <Error />;
-    else
-        return (
-            <div className="register-user">
-                <form onSubmit={submitHandler} className="register-form">
-                    <h1>Register</h1>
+    // async function submitHandler(event) {
+    //     //make a post request to register user
+    //     event.preventDefault();
+    //     const response = await fetch(`${API_URL}/api/users/register`, {
+    //         method: "POST",
+    //         headers: {
+    //             "Content-Type": "application/json",
+    //         },
+    //         body: JSON.stringify(formData),
+    //     }); //no need to use catch block here, response will always be returned
+    //     const result = await response.json();
+    //     console.log(result);
+    //     if (result.success) {
+    //         toast.success(result.message);
+    //         setTimeout(() => navigate("/loginUser"), 500);
+    //     } else {
+    //         toast.error(result.message);
+    //     }
+    // }
+
+    if (viewOtp) return <Verify formData={formData} setViewOtp={setViewOtp}/>;
+    return (
+        <div className="register-user">
+            <form onSubmit={sendOtp} className="register-form">
+                <h1>Register</h1>
+                <div>
                     <div>
-                        <div>
-                            <input
-                                type="text"
-                                name="username"
-                                placeholder="Username"
-                                required
-                                onChange={changeHandler}
-                            />
-                        </div>
-                        <div>
-                            <input
-                                name="email"
-                                type="email"
-                                placeholder="Email ID"
-                                required
-                                onChange={changeHandler}
-                            />
-                        </div>
-                        <div>
-                            <input
-                                name="password"
-                                type="password"
-                                placeholder="Create Password"
-                                required
-                                onChange={changeHandler}
-                            />
-                        </div>
-                        <div className="pass">
-                            <input
-                                name="confirmPassword"
-                                type={viewPassword ? "text" : "password"}
-                                placeholder="Confirm Password"
-                                required
-                                onChange={changeHandler}
-                            />
-                            <div
-                                onClick={() => {
-                                    setViewPassword((prevValue) => !prevValue);
-                                }}
-                            >
-                                {!viewPassword ? <FaEye className="eye"/> : <FaEyeSlash className="eye" />}
-                            </div>
+                        <input
+                            type="text"
+                            name="username"
+                            placeholder="Username"
+                            required
+                            onChange={changeHandler}
+                        />
+                    </div>
+                    <div>
+                        <input
+                            name="email"
+                            type="email"
+                            placeholder="Email ID"
+                            required
+                            onChange={changeHandler}
+                        />
+                    </div>
+                    <div>
+                        <input
+                            name="password"
+                            type="password"
+                            placeholder="Create Password"
+                            required
+                            onChange={changeHandler}
+                        />
+                    </div>
+                    <div className="pass">
+                        <input
+                            name="confirmPassword"
+                            type={viewPassword ? "text" : "password"}
+                            placeholder="Confirm Password"
+                            required
+                            onChange={changeHandler}
+                        />
+                        <div
+                            onClick={() => {
+                                setViewPassword((prevValue) => !prevValue);
+                            }}
+                        >
+                            {!viewPassword ? (
+                                <FaEye className="eye" />
+                            ) : (
+                                <FaEyeSlash className="eye" />
+                            )}
                         </div>
                     </div>
-                    <button type="submit" onClick={submitHandler}>
-                        Register
-                    </button>
-                    <div>
-                        Don't have an account?{" "}
-                        <NavLink to="/loginUser">Login</NavLink>
-                    </div>
-                </form>
-                <Toaster position="top-center" />
-            </div>
-        );
+                </div>
+                <button type="submit">
+                    Register
+                </button>
+                <div>
+                    Don't have an account?{" "}
+                    <NavLink to="/loginUser">Login</NavLink>
+                </div>
+            </form>
+            <Toaster position="top-center" />
+        </div>
+    );
 }
 
 export default RegisterUser;

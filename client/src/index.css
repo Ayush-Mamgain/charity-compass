@@ -10,8 +10,9 @@
     --primary-cream-dark: #e3e2cd;
     --primary-blue-dark: #7e8ab8;
     --primary-red: red;
-    --primary-border: 1px solid black;
     --primary-text-color: black;
+    --primary-green: #0bda51;
+    --primary-border: 1px solid black;
 }
 body {
     width: 100vw;
@@ -20,7 +21,7 @@ body {
     color: black;
 }
 
-/* -------------------------registration-form------------------------- */
+/* ------------------------------registration-form---------------------------- */
 
 .register-user {
     display: flex;
@@ -95,6 +96,100 @@ body {
     color: var(--primary-red);
     text-decoration: none;
     font-weight: bold;
+}
+
+/* --------------------------------------Verify------------------------------------------- */
+
+.verify {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: var(--primary-cream);
+    padding: 2rem;
+}
+
+.verify p {
+    color: var(--primary-blue-dark);
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.verify p span {
+    color: var(--primary-blue);
+    font-weight: bold;
+}
+
+.verify-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.verify-form input {
+    width: 200px;
+    padding: 0.75rem;
+    border: 1px solid var(--primary-blue-dark);
+    border-radius: 0.25rem;
+    font-size: 1rem;
+    text-align: center;
+}
+
+.verify-form input:focus {
+    outline: none;
+    border-color: var(--primary-blue);
+}
+
+.verify-form button[type="submit"] {
+    background-color: var(--primary-blue);
+    color: var(--primary-cream);
+    border: none;
+    border-radius: 0.25rem;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    font-weight: bold;
+    margin-left: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.verify-form button[type="submit"]:hover {
+    background-color: var(--primary-blue-dark);
+}
+
+.verify button {
+    all: unset;
+    color: var(--primary-green);
+    border: none;
+    border-radius: 0.25rem;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    align-self: flex-end;
+}
+
+.verify button {
+    text-decoration: underline;
+}
+
+@media (max-width: 480px) {
+    .verify-form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .verify-form input {
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+
+    .verify-form button[type="submit"] {
+        margin-left: 0;
+    }
 }
 
 /* -------------------------------------login-form-------------------------------------- */
@@ -465,6 +560,16 @@ body {
 .charity-filter label span {
     color: var(--primary-blue-dark);
     font-weight: bold;
+}
+
+.charity-filter button {
+    all: unset;
+    background-color: var(--primary-blue-dark);
+    color: var(--primary-cream);
+    border-radius: 25px;
+    padding: 0.4rem;
+
+
 }
 
 @media (max-width: 600px) {

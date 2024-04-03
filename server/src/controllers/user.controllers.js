@@ -36,6 +36,19 @@ const sendOtp = asyncHandler(async function (request, res) {
     return res.status(200).json(new ApiResponse(200, { savedOtp }, 'OTP sent successfully'));
 });
 
+const verifyOtp = asyncHandler(async (req, res) => {
+    const { otp,email } = req.body;
+
+    const savedOtp = await Otp.findOne({email}).sort({createdAt: -1}).limit(1);
+    if(savedOtp.otp !== otp) {
+        throw new ApiError(403, 'Invalid OTP');
+    }
+
+    //remove the OTP so that it can't be reused later
+    await Otp.findByIdAndDelete(savedOtp._id);
+    return res.status(200).json(new ApiResponse(200, {}, 'OTP verified successfully'));
+});
+
 const registerUser = asyncHandler(async function (req, res) {
     //get the details from request
     const { username, email, password, confirmPassword } = req.body;
@@ -262,4 +275,4 @@ const getTotalDonation = asyncHandler(async (req, res) => {
     return res.status(200).json(new ApiResponse(200, { totalDonation }, 'Total contribution fetched successfully'));
 });
 
-module.exports = { sendOtp, registerUser, loginUser, logoutUser, isLoggedIn, refreshToken, getUserProfile, getDonations, updateBookmark, getSavedCharities, getTotalDonation };
+module.exports = { sendOtp, verifyOtp, registerUser, loginUser, logoutUser, isLoggedIn, refreshToken, getUserProfile, getDonations, updateBookmark, getSavedCharities, getTotalDonation };

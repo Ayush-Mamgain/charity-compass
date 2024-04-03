@@ -1,11 +1,12 @@
 const userRouter = require('express').Router();
-const { sendOtp, registerUser, loginUser, logoutUser, isLoggedIn, getUserProfile, getDonations, updateBookmark, getSavedCharities, getTotalDonation } = require('../controllers/user.controllers');
+const { sendOtp, verifyOtp, registerUser, loginUser, logoutUser, isLoggedIn, getUserProfile, getDonations, updateBookmark, getSavedCharities, getTotalDonation } = require('../controllers/user.controllers');
 const { verifyToken, authN } = require('../middlewares/auth.middleware');
 
 
 userRouter.post('/register', registerUser);
 userRouter.post('/login', loginUser);
 userRouter.post('/sendOtp', sendOtp);
+userRouter.post('/verifyOtp', verifyOtp);
 
 //secured routes
 userRouter.get('/getLoginStatus', authN, isLoggedIn);
