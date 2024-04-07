@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
 const cookieParser = require('cookie-parser');
+const fileUpload = require('express-fileupload');
 
 //create an instance of express server
 const app = express();
@@ -25,8 +26,19 @@ app.use(express.static('public'));
 
 app.use(cookieParser());
 
-const ejs = require('ejs');
-app.set('view engine', 'ejs');
+app.use(fileUpload({
+    useTempFiles: true,
+    tempFileDir: '/public/tmp/'
+}));
+
+//test route for file uplaod
+const uploadOnCloudinary = require('./utils/cloudinary');
+app.post('/api/testUpload', async (req, res) => {
+    const uploadedFile = req.files.file;
+    console.log('File uploaded by user:\n',uploadedFile);
+    const result = await uploadOnCloudinary(uploadedFile.tempFilePath);
+    res.status(200).json({result});
+})
 
 //default route
 app.get('/', (req, res) => res.send('Welcome to charity finder'));

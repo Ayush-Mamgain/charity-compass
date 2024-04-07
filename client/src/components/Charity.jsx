@@ -1,4 +1,4 @@
-
+//single page for charity
 function Charity() {
     return (
         <div className="charity">

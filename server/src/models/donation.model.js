@@ -1,4 +1,8 @@
 const mongoose = require('mongoose');
+const User = require('./user.model');
+const Charity = require('./charity.model');
+const mailSender = require('../utils/nodemailer');
+const donationHtml = require('../utils/template');
 
 const donationSchema = new mongoose.Schema({
     user: {
@@ -27,6 +31,23 @@ const donationSchema = new mongoose.Schema({
     paymentId: {
         type: String,
         required: true
+    }
+});
+
+async function getUserEmail(userId) {
+    const user = await User.findById(userId);
+    const email = user.email;
+    return email;
+}
+
+donationSchema.post('save', async function (doc) {
+    const user = await User.findById(doc.user);
+    const charity = await Charity.findById(doc.charity);
+    try {
+        await mailSender(user.email, 'Charity Donation', donationHtml(user.username, doc.amount, charity.name));
+        console.log('Donation mail sent successfully');
+    } catch (error) {
+        console.error('Error sending donation email:', error);
     }
 });
 

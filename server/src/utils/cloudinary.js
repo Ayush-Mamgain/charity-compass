@@ -1,5 +1,5 @@
-import { v2 as cloudinary } from "cloudinary";
-import fs from 'fs';
+const cloudinary = require('cloudinary').v2;
+const fs = require('fs');
 
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -8,10 +8,11 @@ cloudinary.config({
 });
 
 //assuming that the file has been uploaded on server locally using express-fileupload or multer
-export default async function uploadOnCloudinary(localFilePath) {//the function returns null if the upload fails or else it returns the uploaded resource
+async function uploadOnCloudinary(localFilePath) {//the function returns null if the upload fails or else it returns the uploaded resource
     try {
         if(!localFilePath) return null;
-        const response = cloudinary.uploader.upload(localFilePath, {
+        const response = await cloudinary.uploader.upload(localFilePath, {
+            folder: 'test',
             resource_type: 'auto'
         });
         console.log('File uploaded on cloudinary:\n',response.url);
@@ -23,3 +24,5 @@ export default async function uploadOnCloudinary(localFilePath) {//the function 
         return null;
     }
 }
+
+module.exports = uploadOnCloudinary;

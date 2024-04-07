@@ -3,17 +3,19 @@ import { NavLink } from "react-router-dom";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
 import toast, { Toaster } from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
 import Verify from "../components/Verify";
+import Loading from "../components/Loading";
 
 function RegisterUser() {
     const API_URL = import.meta.env.VITE_API_URL;
+    const [loading, setLoading] = useState(false);
 
     const [formData, setFormData] = useState({
         username: "",
         email: "",
         password: "",
         confirmPassword: "",
+        image: null,
     });
 
     const [viewPassword, setViewPassword] = useState(false);
@@ -25,8 +27,8 @@ function RegisterUser() {
             return {
                 ...prevData,
                 [event.target.name]:
-                    event.target.type === "checkbox"
-                        ? event.target.checked
+                    event.target.type === "file"
+                        ? event.target.files[0]
                         : event.target.value,
             };
         });
@@ -35,27 +37,32 @@ function RegisterUser() {
     async function sendOtp(event) {
         event.preventDefault();
         const reqUrl = `${API_URL}/api/otp/sendOtp`;
+
+        setLoading(true);
         await fetch(reqUrl, {
-            method: 'POST',
-            credentials: 'include',
+            method: "POST",
+            credentials: "include",
             headers: {
-                'Content-Type': 'application/json'
+                "Content-Type": "application/json",
             },
-            body: JSON.stringify({email: formData.email})
+            body: JSON.stringify({ email: formData.email }),
         })
-        .then(response => response.json())
-        .then(result => {
-            if(result.success) {
-                toast.success(result.message);
-                setTimeout(() => setViewOtp(true), 1000);
-            } else {
-                toast.error(result.message);
-            }
-        })
-        .catch(error => console.error(error));
+            .then((response) => response.json())
+            .then((result) => {
+                setLoading(false);
+                if (result.success) {
+                    toast.success(result.message);
+                    setTimeout(() => setViewOtp(true), 1000);
+                    // setViewOtp(true);
+                } else {
+                    toast.error(result.message);
+                }
+            })
+            .catch((error) => console.error(error));
     }
 
-    if (viewOtp) return <Verify formData={formData} setViewOtp={setViewOtp}/>;
+    if (viewOtp) return <Verify formData={formData} setViewOtp={setViewOtp} />;
+    if(loading) return <div className="loading"><Loading /></div>
     return (
         <div className="register-user">
             <form onSubmit={sendOtp} className="register-form">
@@ -109,9 +116,7 @@ function RegisterUser() {
                         </div>
                     </div>
                 </div>
-                <button type="submit">
-                    Register
-                </button>
+                <button type="submit">Register</button>
                 <div>
                     Don't have an account?{" "}
                     <NavLink to="/loginUser">Login</NavLink>

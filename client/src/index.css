@@ -113,7 +113,7 @@ body {
 .verify p {
     color: var(--primary-blue-dark);
     font-size: 1.1rem;
-    margin-bottom: 1rem;
+    padding-bottom: 1rem;
     text-align: center;
 }
 
@@ -125,8 +125,8 @@ body {
 .verify-form {
     display: flex;
     justify-content: center;
-    align-items: center;
-    margin-bottom: 1rem;
+    align-items: start;
+    gap: 1rem;
 }
 
 .verify-form input {
@@ -151,29 +151,34 @@ body {
     padding: 0.75rem 1rem;
     font-size: 1rem;
     font-weight: bold;
-    margin-left: 1rem;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    text-decoration: none;
 }
 
 .verify-form button[type="submit"]:hover {
     background-color: var(--primary-blue-dark);
 }
 
-.verify button {
+.resend-btn {
     all: unset;
-    color: var(--primary-green);
+    color: black;
     border: none;
     border-radius: 0.25rem;
     padding: 0.5rem 1rem;
     font-size: 1rem;
     font-weight: bold;
     cursor: pointer;
-    align-self: flex-end;
 }
 
 .verify button {
     text-decoration: underline;
+}
+
+.otp-btn-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 @media (max-width: 480px) {
@@ -327,7 +332,7 @@ body {
     border-radius: 0.5rem;
     padding: 1rem;
     box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
-    width: 50vw;
+    width: 45vw;
     min-width: 300px;
     min-width: max-content;
     height: min-content;
@@ -348,6 +353,9 @@ body {
     font-size: 1.5rem;
 }
 
+.charity-header span {
+    color: var(--primary-text-color);
+}
 .charity-button-group {
     /* border: var(--primary-border); */
     display: flex;
@@ -405,6 +413,11 @@ body {
 @media (max-width: 600px) {
     .charity-card {
         margin: 1rem;
+    }
+    .charity-header {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
     }
 }
 
@@ -568,8 +581,6 @@ body {
     color: var(--primary-cream);
     border-radius: 25px;
     padding: 0.4rem;
-
-
 }
 
 @media (max-width: 600px) {
@@ -591,6 +602,7 @@ body {
 .charity-container {
     display: flex;
     flex-direction: column;
+    align-items: center;
     width: 100%;
     gap: 2rem;
     padding: 2rem;
@@ -605,6 +617,13 @@ body {
     gap: 2rem;
 }
 
+.donations h1 {
+    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+        sans-serif;
+    position: relative;
+    top: 10px;
+}
+
 /* ----------------------------------------Bookmarks-------------------------------------- */
 
 .bookmarks {
@@ -614,6 +633,13 @@ body {
     gap: 2rem;
 }
 
+.bookmarks h1 {
+    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+        sans-serif;
+    position: relative;
+    top: 10px;
+}
+
 /* -----------------------------------------Dashboard------------------------------------- */
 
 .dashboard {
@@ -621,16 +647,17 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
+    width: 100vw;
     background-color: var(--primary-cream);
-    padding: 2rem;
+    /* padding: 2rem; */
 }
 
 .user-card {
     background-color: var(--primary-cream-dark);
     border-radius: 0.5rem;
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
-    /* max-width: 800px; */
-    width: 50vw;
+    padding: 1rem 1rem 1.5rem 1rem;
+    width: 55vw;
     min-width: 300px;
     display: flex;
     flex-direction: column;
@@ -671,7 +698,7 @@ body {
 .user-buttons {
     display: flex;
     justify-content: center;
-    padding-block: 1rem;
+    padding-top: 1rem;
 }
 
 .user-buttons button {
@@ -692,8 +719,7 @@ body {
 }
 
 .view-container {
-    width: 100%;
-    padding: 2rem;
+    padding: 1rem;
     border-radius: 0.5rem;
 }
 
@@ -709,5 +735,62 @@ body {
 
     .user-buttons button {
         margin: 0.5rem 0;
+    }
+}
+
+/* -------------------------------------Loading---------------------------------- */
+
+.loading {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loading .loader {
+    width: 40vh;
+}
+
+.loader {
+    z-index: 10;
+    width: 100px;
+    aspect-ratio: 1.154;
+    display: grid;
+    color: var(--primary-blue-dark);
+    background:
+        linear-gradient(
+                to bottom left,
+                #0000 calc(50% - 1px),
+                currentColor 0 calc(50% + 1px),
+                #0000 0
+            )
+            right/50% 100%,
+        linear-gradient(
+                to bottom right,
+                #0000 calc(50% - 1px),
+                currentColor 0 calc(50% + 1px),
+                #0000 0
+            )
+            left / 50% 100%,
+        linear-gradient(currentColor 0 0) bottom/100% 2px;
+    background-repeat: no-repeat;
+    transform-origin: 50% 66%;
+    animation: l5 4s infinite linear;
+}
+.loader::before,
+.loader::after {
+    content: "";
+    grid-area: 1/1;
+    background: inherit;
+    transform-origin: inherit;
+    animation: inherit;
+}
+.loader::after {
+    animation-duration: 2s;
+}
+@keyframes l5 {
+    100% {
+        transform: rotate(1turn);
     }
 }

@@ -30,7 +30,7 @@ function DonationCard({ donation }) {
     return (
         <div className="donation-card">
             <h2>
-                Amount: {donation.amount} <span>for </span>
+                Amount: {(donation.amount/100).toFixed(2)} <span>for </span>
                 {charity.name}
             </h2>
             <p>Payment ID: {donation.paymentId}</p>

@@ -1,8 +1,11 @@
 import { useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 function Payment({charityId}) {
     const [amount, setAmount] = useState(0);
     const API_URL = import.meta.env.VITE_API_URL;
+    const navigate = useNavigate();
 
     async function createOrder(amount) {
         //make an api call to create the order (could be done in front-end)
@@ -56,6 +59,8 @@ function Payment({charityId}) {
                     .then((response) => response.json())
                     .then((result) => {
                         console.log(result);
+                        toast.success('Donation Successful');
+                        setTimeout(() => navigate('/dashboard'), 500);
                     })
                     .catch((error) => console.error(error));
             },
@@ -86,6 +91,7 @@ function Payment({charityId}) {
                 />
                 <button type="submit">PAY NOW</button>
             </form>
+            <Toaster />
         </div>
     );
 }

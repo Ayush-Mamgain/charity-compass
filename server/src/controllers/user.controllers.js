@@ -214,7 +214,14 @@ const updateBookmark = asyncHandler(async (req, res) => {
 
 const getSavedCharities = asyncHandler(async (req, res) => {
     const { user } = req;
-    const fullUser = await User.findById(user._id).populate('savedCharities');
+    const fullUser = await User.findById(user._id)
+        .populate({
+            path: 'savedCharities',
+            populate: [
+                { path: 'address' },
+                { path: 'category' }
+            ]
+        });
     const { savedCharities } = fullUser;
     const bookmarks = savedCharities.map(charity => {
         return {

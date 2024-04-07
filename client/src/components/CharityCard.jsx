@@ -6,6 +6,7 @@ function CharityCard({ charity }) {
     const API_URL = import.meta.env.VITE_API_URL;
     const [expand, setExpand] = useState(false);
     const [bookmark, setBookmark] = useState(charity.bookmarked);
+    // const [category, setCategory] = useState('');
 
     async function updateBookmark() {
         const reqUrl = `${API_URL}/api/users/updateBookmark`;
@@ -28,6 +29,7 @@ function CharityCard({ charity }) {
         <div className="charity-card">
             <div className="charity-header">
                 <h2>{charity.name}</h2>
+                <span>{charity.category.name}</span>
                 <div className="charity-button-group">
                     <button onClick={() => setExpand((prev) => !prev)}>
                         { expand ? '-' : '+'}
@@ -47,8 +49,8 @@ function CharityCard({ charity }) {
             </div>
             {expand && (
                 <div className="charity-info">
+                    <p>Location: {(charity.address.state).toUpperCase()}</p>
                     <p>{charity.description}</p>
-                    <p>{charity.address.name}</p>
                     <a href={charity.website}>Official website</a>
                     <Payment charityId={charity._id} />
                 </div>

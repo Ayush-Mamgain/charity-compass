@@ -3,12 +3,12 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
 import toast, { Toaster } from "react-hot-toast";
-import Error from "../components/Error";
+import Loading from "../components/Loading";
 
-function LoginUser({ loggedIn, setLoggedIn }) {
+function LoginUser({ setLoggedIn }) {
     const API_URL = import.meta.env.VITE_API_URL;
     const navigate = useNavigate();
-    const [error, setError] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const [formData, setFormData] = useState({
         email: "",
@@ -34,6 +34,8 @@ function LoginUser({ loggedIn, setLoggedIn }) {
     async function submitHandler(event) {
         //make a post request to register user
         event.preventDefault();
+        setLoading(true);
+        
         try {
             //make api call to backend for login
             const loginUrl = `${API_URL}/api/users/login`;
@@ -46,26 +48,26 @@ function LoginUser({ loggedIn, setLoggedIn }) {
                 body: JSON.stringify(formData),
             });
             const result = await response.json();
+            setLoading(false);
             console.log(result);
 
             //toast the message and navigate
             if (result.success) {
+                setLoading(false);
                 setLoggedIn(true);
                 toast.success(result.message || "User logged in successfully");
                 setTimeout(() => {
                     navigate("/");
-                }, 500);
+                }, 1000);
             } else {
                 toast.error(result.message.trim() || "Something went wrong");
             }
         } catch (error) {
             console.error(error);
-            setError(true);
-        } finally {
         }
     }
 
-    if(error) return <Error />
+    if(loading) return <div className="loading"><Loading /><Toaster /></div>
     return (
         <div className="login-user">
             <form onSubmit={submitHandler} className="login-form">
@@ -117,7 +119,7 @@ function LoginUser({ loggedIn, setLoggedIn }) {
                     <NavLink to="/registerUser">Register</NavLink>
                 </div>
             </form>
-            <Toaster />
+            <Toaster position="top-center"/>
         </div>
     );
 }

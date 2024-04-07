@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const mailSender = require('../utils/nodemailer');
+const { emailVerificationHtml } = require('../utils/template');
 
 const otpSchema = new mongoose.Schema({
     otp: {
@@ -23,8 +24,7 @@ const otpSchema = new mongoose.Schema({
 otpSchema.pre('save', async function (next) {
     //if you use an arrow function 'this' won't refer to instance of otpSchema; instead it would refer to something else
     //send the verification email
-    console.log(this.email);
-    await mailSender(this.email, 'Email Verification', `Your email verification code is: ${this.otp}`)
+    await mailSender(this.email, 'Email Verification', emailVerificationHtml(this.otp))
     .then(mailResponse => console.log('Email verification mail sent successfully:\n',mailResponse));
 });
 
