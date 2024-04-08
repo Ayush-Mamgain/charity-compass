@@ -1,1 +1,1 @@
-# Lets begin the CHARITY FINDER
+# CHARITY COMPASS
