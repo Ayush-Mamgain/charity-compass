@@ -27,6 +27,7 @@ function Dashboard() {
             .then((result) => {
                 setUser(result.data);
                 setLoading(false);
+                console.log(result);
             })
             .catch((error) => console.error(error));
     }
