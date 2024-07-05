@@ -88,4 +88,4 @@ We welcome contributions to enhance Charity Compass. Please follow these steps:
 
 - **Project Link**: [https://github.com/ayush-mamgain/charity-finder](https://github.com/ayush-mamgain/charity-finder)
 - **Email**: ayushmamgain1234@gmail.com
-- 
+
